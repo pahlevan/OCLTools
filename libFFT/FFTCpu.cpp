@@ -12,7 +12,7 @@
 FFTCpu::FFTCpu(const FFTPointCount fft_point, const WindowFunction::win_type win_type)
 	: fft_point_(fft_point)
 {
-	window_vec_ = WindowFunction::build(win_type, int(fft_point), 0.0);
+	window_vec_ = WindowFunction::build(win_type, int(fft_point),0);
 
 	in_ = (std::complex<float>*)fftwf_malloc(sizeof(fftwf_complex) * int(fft_point_));
 	out_ = (std::complex<float>*)fftwf_malloc(sizeof(fftwf_complex) * int(fft_point_));

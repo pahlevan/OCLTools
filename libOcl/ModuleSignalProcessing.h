@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include "../../../../OClTools/libFFT/WindowFunction.h"
 
 class AllignedBufferF;
 class AllignedBufferFC;
@@ -24,9 +25,9 @@ namespace ocl
 		ModuleSignalProcessing() = default;
 	public:
 		~ModuleSignalProcessing();
-		static auto create(size_t sample_count) ->std::shared_ptr<ModuleSignalProcessing>;
+		static auto create(size_t sample_count , const WindowFunction::win_type win_type) ->std::shared_ptr<ModuleSignalProcessing>;
 
-		auto perform(const std::shared_ptr<AllignedBufferI16C>& rawData, const std::vector<float>& window) ->std::shared_ptr<AllignedBufferF>;
+		auto perform(const std::shared_ptr<AllignedBufferI16C>& rawData) ->std::shared_ptr<AllignedBufferF>;
 
 	private:
 		cl_context context_;
@@ -35,9 +36,9 @@ namespace ocl
 		cl_kernel kernel_preprocess_;
 		cl_kernel kernel_postprocess_;
 
-		cl_mem a_mem_obj_;
-		cl_mem b_mem_obj_;
-		cl_mem c_mem_obj_;
+		cl_mem mem_obj_input_;
+		cl_mem mem_obj_window_;
+		cl_mem mem_obj_fft_;
 		cl_mem signal_power_out_;
 
 		clfftSetupData* fftSetup_;
