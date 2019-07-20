@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../libFFT/WindowFunction.h"
+
 #include <memory>
 #include <vector>
-#include "../../../../OClTools/libFFT/WindowFunction.h"
 
 class AllignedBufferF;
 class AllignedBufferFC;

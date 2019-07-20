@@ -5,10 +5,11 @@
 #include "../libOcl/ModuleSignalProcessing.h"
 #include "../libFFT/WindowFunction.h"
 #include "../libFFT/FFTCpu.h"
+#include "../libFFT/AllignedBufferF.h"
 
 #include <random>
 #include <omp.h>
-#include "../../pato-com-asia/TacticalMonitoring/TacticalMonitoring/libBuffer/AllignedBufferF.h"
+
 
 #ifdef _DEBUG
 #pragma comment( lib , "../3rdparties/debug/lib/clFFT")
@@ -27,8 +28,7 @@ int main()
 	std::random_device rd;
 	std::minstd_rand gen(rd());
 	std::normal_distribution<float> dis(-1, 1);
-	while (true)
-	{
+	
 		auto fftp = FFTPointCount::Point_64K;
 
 		int fft_point = int(fftp);
@@ -49,7 +49,8 @@ int main()
 
 			buff->set(index, sff);
 		}
-
+		while (true)
+		{
 		double time_ocl = omp_get_wtime();
 
 		auto ret_ocl = ocl->perform(buff);

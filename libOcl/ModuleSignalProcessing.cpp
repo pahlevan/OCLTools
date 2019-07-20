@@ -122,12 +122,36 @@ namespace ocl
 			std::string pl_vendor = p.getInfo<CL_PLATFORM_VENDOR>();
 
 
+			//printf("pl_profile = %s\n", p.getInfo<CL_PLATFORM_PROFILE>().c_str());
+			//printf("pl_version =  %s\n", p.getInfo<CL_PLATFORM_VERSION>().c_str());
+			//printf("pl_name =  %s\n", p.getInfo<CL_PLATFORM_NAME>().c_str());
+			//printf("pl_vendor =  %s\n", p.getInfo<CL_PLATFORM_VENDOR>().c_str());
+
+
 			if (pl_vendor.find("NVIDIA ") != std::string::npos)
 			{
 				plat = p;
 				break;
 			}
+
+
+			if (pl_vendor.find("AND") != std::string::npos)
+			{
+				plat = p;
+				break;
+			}
+
+			if (pl_vendor.find("Intel") != std::string::npos)
+			{
+				plat = p;
+				break;
+			}
 		}
+
+		//printf("pl_profile = %s\n" , plat.getInfo<CL_PLATFORM_PROFILE>().c_str());
+		//printf("pl_version =  %s\n", plat.getInfo<CL_PLATFORM_VERSION>().c_str());
+		//printf("pl_name =  %s\n", plat.getInfo<CL_PLATFORM_NAME>().c_str());
+		//printf("pl_vendor =  %s\n", plat.getInfo<CL_PLATFORM_VENDOR>().c_str());
 
 		std::vector<cl::Device> device;
 		plat.getDevices(CL_DEVICE_TYPE_GPU, &device);
@@ -281,7 +305,7 @@ namespace ocl
 
 			// Execute the OpenCL kernel on the list
 			size_t global_item_size = sample_count; // Process the entire lists
-			size_t local_item_size = 64; // Divide work items into groups of 64
+			size_t local_item_size = 128; // Divide work items into groups of 64
 			ret = clEnqueueNDRangeKernel(command_queue_, kernel_preprocess_, 1, NULL, &global_item_size, &local_item_size, 0, NULL, NULL);
 		}
 
@@ -303,7 +327,7 @@ namespace ocl
 			ret = clSetKernelArg(kernel_postprocess_, 1, sizeof(cl_mem), (void*)& signal_power_out_);
 			// Execute the OpenCL kernel on the list
 			size_t global_item_size = sample_count/2; // Process the entire lists
-			size_t local_item_size = 64; // Divide work items into groups of 64
+			size_t local_item_size = 128; // Divide work items into groups of 64
 			ret = clEnqueueNDRangeKernel(command_queue_, kernel_postprocess_, 1, NULL, &global_item_size, &local_item_size, 0, NULL, NULL);
 
 			ret = clEnqueueReadBuffer(command_queue_, signal_power_out_, CL_TRUE, 0, sample_count * sizeof(float), retBuffer->data(), 0, NULL, NULL);

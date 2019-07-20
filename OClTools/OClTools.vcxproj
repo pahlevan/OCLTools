@@ -148,9 +148,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\pato-com-asia\TacticalMonitoring\TacticalMonitoring\libMath\libMath.vcxproj">
-      <Project>{975175fe-30d0-4483-b0c9-400ec2b480d4}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\libFFT\libFFT.vcxproj">
       <Project>{41687676-470c-4ec6-b129-bd249a9ffe0e}</Project>
     </ProjectReference>
